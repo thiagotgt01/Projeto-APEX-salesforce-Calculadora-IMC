@@ -1,0 +1,90 @@
+public Class IMCInfo{
+    
+    public String Condition{
+        get{
+            return Condition;
+        }
+        set{
+            Condition = value;
+        }
+    }
+    public Decimal Imc{
+        get{
+            return Imc;
+        }
+        set{
+            Imc = value;
+        }
+    }
+    
+    public IMCInfo(Decimal calcIMC,String getCondition){
+        this.Imc = calcIMC;
+        this.Condition = getCondition;
+    }
+
+}
+
+public static Decimal calcIMC(Decimal weight, Decimal height){
+    
+    decimal resultCalcIMC = weight/(height*height);
+    decimal formatCalcIMC = resultCalcIMC.setScale(1);
+    
+    return formatCalcIMC;
+}
+
+public static String getCondition(Decimal imc,String gender){
+    String condition;
+    if(gender == 'mulher'){
+        if(imc < 19.1){
+            condition = 'mulher => abaixo do peso';
+        }else if(imc >= 19.1 && imc < 25.8){
+            condition = 'homem => no peso normal';
+        }else if(imc >= 25.8 && imc < 27.3){
+            condition = 'marginalmente acima do peso';
+        }else if(imc >= 27.3 && imc < 31.1){
+            condition = 'acima do peso ideal';
+        }else if(imc >= 31.1){
+            condition = 'obeso';
+        }else{
+            condition = 'Valor inserido invalido';
+        }
+    }else if(gender == 'homem'){
+        if(imc < 20.7){
+            condition = 'homem => abaixo do peso';
+        }else if(imc >= 20.7 && imc < 26.4){
+            condition = 'homem => no peso normal';
+        }else if(imc >= 26.4 && imc < 27.8){
+            condition = 'marginalmente acima do peso';
+        }else if(imc >= 27.8 && imc < 32.3){
+            condition = 'acima do peso ideal';
+        }else if (imc > 32.3){
+            condition = 'Obeso';
+        }else{
+            condition = 'Valor inserido invalido';
+        }
+    }
+        
+        
+    return condition;
+}
+
+public static IMCInfo checkIMC(Decimal weight,Decimal height,String gender){
+ 
+    decimal x = calcIMC(weight,height);
+    
+    String y = getCondition(x,gender);
+    
+    return new IMCInfo(x,y);
+}
+    
+
+public static void execute(){
+    Decimal weight = 88;
+    Decimal height = 1.72;
+    String gender = 'homem';
+    
+    IMCInfo resultIMC = checkIMC(weight,height,gender);
+    System.debug(' Dados => Peso :'+weight+' Altura:'+height+' Gênero:'+gender);
+    System.debug(' Balança IMC => Seu IMC :'+ resultIMC.Imc+' Sua condição é '+resultIMC.condition);
+    
+}
